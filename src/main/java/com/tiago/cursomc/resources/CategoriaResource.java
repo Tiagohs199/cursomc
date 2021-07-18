@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tiago.cursomc.domain.Categoria;
 import com.tiago.cursomc.services.CategoriaService;
 
+
 @RestController
 @RequestMapping(value="/categorias")
 public class CategoriaResource {
@@ -18,9 +19,9 @@ public class CategoriaResource {
 	private CategoriaService service;
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?>  find(@PathVariable Integer id) {
-		Categoria obj = service.findById(id);
+	public ResponseEntity<?>  find(@PathVariable Integer id){
 		
+		Categoria obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
