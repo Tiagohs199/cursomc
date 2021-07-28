@@ -3,9 +3,9 @@ package com.tiago.cursomc.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tiago.cursomc.domain.Endereco;
+import com.tiago.cursomc.domain.Pagamento;
 
 @Repository
-public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
+public interface PagamentoRepository extends JpaRepository<Pagamento, Integer> {
 	
 }
