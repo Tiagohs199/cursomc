@@ -13,8 +13,6 @@ import javax.persistence.OneToOne;
 import com.tiago.cursomc.domain.enums.EstadoPagamento;
 import com.tiago.cursomc.domain.enums.TipoCliente;
 
-import net.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy.Listener.ErrorEscalating;
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pagamento implements Serializable{

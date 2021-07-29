@@ -13,11 +13,12 @@ import com.tiago.cursomc.domain.Cidade;
 import com.tiago.cursomc.domain.Cliente;
 import com.tiago.cursomc.domain.Endereco;
 import com.tiago.cursomc.domain.Estado;
+import com.tiago.cursomc.domain.ItemPedido;
 import com.tiago.cursomc.domain.Pagamento;
 import com.tiago.cursomc.domain.PagamentoComBoleto;
 import com.tiago.cursomc.domain.PagamentoComCartao;
 import com.tiago.cursomc.domain.Pedido;
-import com.tiago.cursomc.domain.Product;
+import com.tiago.cursomc.domain.Produto;
 import com.tiago.cursomc.domain.enums.EstadoPagamento;
 import com.tiago.cursomc.domain.enums.TipoCliente;
 import com.tiago.cursomc.repositories.CategoriaRepository;
@@ -25,6 +26,7 @@ import com.tiago.cursomc.repositories.CidadeRepository;
 import com.tiago.cursomc.repositories.ClienteRepository;
 import com.tiago.cursomc.repositories.EnderecoRepository;
 import com.tiago.cursomc.repositories.EstadoRepository;
+import com.tiago.cursomc.repositories.ItemPedidoRepository;
 import com.tiago.cursomc.repositories.PagamentoRepository;
 import com.tiago.cursomc.repositories.PedidoRepository;
 import com.tiago.cursomc.repositories.ProductRepository;
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner{
 	private PedidoRepository pedRepo;
 	@Autowired
 	private PagamentoRepository pagRepo;
+	@Autowired
+	private ItemPedidoRepository itemPedRepo;
 	
 
 	public static void main(String[] args) {
@@ -62,9 +66,9 @@ public class CursomcApplication implements CommandLineRunner{
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Escritorio");
 		
-		Product p1 = new Product(null, "computador", 2000.00);
-		Product p2 = new Product(null, "impressora", 800.00);
-		Product p3 = new Product(null, "mouse", 80.00);	
+		Produto p1 = new Produto(null, "computador", 2000.00);
+		Produto p2 = new Produto(null, "impressora", 800.00);
+		Produto p3 = new Produto(null, "mouse", 80.00);	
 		
 		cat1.getProducts().addAll(Arrays.asList(p1,p2,p3));
 		cat2.getProducts().addAll(Arrays.asList(p2));
@@ -117,6 +121,19 @@ public class CursomcApplication implements CommandLineRunner{
 		
 		pagRepo.saveAll(Arrays.asList(pag1,pag2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip2));
+		p3.getItens().addAll(Arrays.asList(ip3));
+		
+		
+		itemPedRepo.saveAll(Arrays.asList(ip1,ip2,ip3));
 	}
 
 }
