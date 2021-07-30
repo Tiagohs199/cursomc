@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tiago.cursomc.domain.Categoria;
 import com.tiago.cursomc.domain.Cliente;
 import com.tiago.cursomc.repositories.ClienteRepository;
 import com.tiago.cursomc.services.exceptions.ObjectNotFoundException;
