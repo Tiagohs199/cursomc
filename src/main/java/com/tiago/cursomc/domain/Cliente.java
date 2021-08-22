@@ -50,7 +50,7 @@ public class Cliente implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = (tipoCliente==null) ? null : tipoCliente.getCod();   //condicao de if com operador ternario
+		this.tipo = (tipoCliente==null) ? null : tipoCliente.getCod();   //expressão condicao  ternario
 	}
 
 	public Integer getId() {
@@ -109,13 +109,13 @@ public class Cliente implements Serializable {
 		this.telefones = telefones;
 	}
 
-	public Integer getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
-	}
+//	public Integer getTipo() {
+//		return tipo;
+//	}
+//
+//	public void setTipo(Integer tipo) {
+//		this.tipo = tipo;
+//	}
 
 	public List<Pedido> getPedidos() {
 		return pedidos;
