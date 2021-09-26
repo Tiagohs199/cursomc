@@ -11,11 +11,13 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.tiago.cursomc.domain.enums.EstadoPagamento;
 import com.tiago.cursomc.domain.enums.TipoCliente;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -47,7 +49,7 @@ public abstract class Pagamento implements Serializable{
 		this.id = id;
 	}
 
-	public TipoCliente getEstado() {
+	public EstadoPagamento getEstado() {
 		return EstadoPagamento.toEnum(estado);
 	}
 

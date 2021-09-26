@@ -1,11 +1,18 @@
 package com.tiago.cursomc.services;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.tiago.cursomc.domain.ItemPedido;
+import com.tiago.cursomc.domain.PagamentoComBoleto;
 import com.tiago.cursomc.domain.Pedido;
+import com.tiago.cursomc.domain.enums.EstadoPagamento;
+import com.tiago.cursomc.repositories.ItemPedidoRepository;
+import com.tiago.cursomc.repositories.PagamentoRepository;
 import com.tiago.cursomc.repositories.PedidoRepository;
 import com.tiago.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -16,10 +23,38 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoRepository repo;
+	@Autowired
+	private BoletoService boletoService;
+	@Autowired
+	private PagamentoRepository pagtorepo;
+	@Autowired
+	private ProdutoService prorepo;
+	@Autowired ItemPedidoRepository itemrepo;
 
 	public Pedido findById(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! ID: "+ id +", Tipo: "+ Pedido.class.getName()));
+	}
+	
+	@Transactional
+	public Pedido insert(Pedido pedido) {
+		pedido.setId(null);
+		pedido.setInstante(new Date());
+		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
+		pedido.getPagamento().setPedido(pedido);
+		if (pedido.getPagamento() instanceof PagamentoComBoleto) {
+			PagamentoComBoleto pagto = (PagamentoComBoleto) pedido.getPagamento();
+			boletoService.preencherPagamentoComBoleto(pagto, pedido.getInstante());
+		}
+		pedido = repo.save(pedido);
+		pagtorepo.save(pedido.getPagamento());
+		for(ItemPedido ip : pedido.getItens()) {
+			ip.setDesconto(0.0);
+			ip.setPreco(prorepo.findById(ip.getProduto().getId()).getPrice());
+			ip.setPedido(pedido);
+		}
+		itemrepo.saveAll(pedido.getItens());
+		return pedido;
 	}
 }
