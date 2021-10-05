@@ -28,9 +28,11 @@ public class PedidoService {
 	@Autowired
 	private PagamentoRepository pagtorepo;
 	@Autowired
-	private ProdutoService prorepo;
+	private ProdutoService proServ;	
 	@Autowired ItemPedidoRepository itemrepo;
-
+	@Autowired
+	private ClienteService clieServ;
+	
 	public Pedido findById(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -41,6 +43,7 @@ public class PedidoService {
 	public Pedido insert(Pedido pedido) {
 		pedido.setId(null);
 		pedido.setInstante(new Date());
+		pedido.setCliente(clieServ.findById(pedido.getCliente().getId()));
 		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		pedido.getPagamento().setPedido(pedido);
 		if (pedido.getPagamento() instanceof PagamentoComBoleto) {
@@ -51,10 +54,12 @@ public class PedidoService {
 		pagtorepo.save(pedido.getPagamento());
 		for(ItemPedido ip : pedido.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(prorepo.findById(ip.getProduto().getId()).getPrice());
+			ip.setProduto(proServ.findById(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPrice());
 			ip.setPedido(pedido);
 		}
 		itemrepo.saveAll(pedido.getItens());
+		System.out.println(pedido);
 		return pedido;
 	}
 }

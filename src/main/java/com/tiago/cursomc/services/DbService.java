@@ -2,6 +2,7 @@ package com.tiago.cursomc.services;
 
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
@@ -54,7 +55,7 @@ public class DbService {
 	@Autowired
 	private ItemPedidoRepository itemPedRepo;
 	
-	public void instantiateTestDatabase() throws Exception {
+	public void instantiateTestDatabase() throws ParseException {
 		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
