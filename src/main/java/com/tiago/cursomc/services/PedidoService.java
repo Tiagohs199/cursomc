@@ -29,9 +29,12 @@ public class PedidoService {
 	private PagamentoRepository pagtorepo;
 	@Autowired
 	private ProdutoService proServ;	
-	@Autowired ItemPedidoRepository itemrepo;
+	@Autowired 
+	private ItemPedidoRepository itemrepo;
 	@Autowired
 	private ClienteService clieServ;
+	@Autowired
+	private EmailService emailServ;
 	
 	public Pedido findById(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -59,7 +62,7 @@ public class PedidoService {
 			ip.setPedido(pedido);
 		}
 		itemrepo.saveAll(pedido.getItens());
-		System.out.println(pedido);
+		emailServ.sendOrderConfirmation(pedido);
 		return pedido;
 	}
 }
