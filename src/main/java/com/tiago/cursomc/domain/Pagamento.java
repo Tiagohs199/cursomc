@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.tiago.cursomc.domain.enums.EstadoPagamento;
-import com.tiago.cursomc.domain.enums.TipoCliente;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
