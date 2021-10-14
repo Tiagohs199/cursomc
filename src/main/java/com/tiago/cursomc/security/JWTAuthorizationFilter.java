@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,7 +32,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		
 		String header = request.getHeader("authorization");
 		if ( header != null && header.startsWith("Bearer")) {
-			UsernamePasswordAuthenticationToken auth = getAuthentication(request,header.substring(7));
+			UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
 			if(auth != null) {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
@@ -41,7 +40,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(request, response);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
+	private UsernamePasswordAuthenticationToken getAuthentication( String token) {
 		if(jwtUtil.tokenValido(token)) {
 			String username = jwtUtil.getUsername(token);
 			UserDetails user = userDetailsService.loadUserByUsername(username);
