@@ -15,7 +15,6 @@ import com.tiago.cursomc.domain.ItemPedido;
 import com.tiago.cursomc.domain.PagamentoComBoleto;
 import com.tiago.cursomc.domain.Pedido;
 import com.tiago.cursomc.domain.enums.EstadoPagamento;
-import com.tiago.cursomc.repositories.ClienteRepository;
 import com.tiago.cursomc.repositories.ItemPedidoRepository;
 import com.tiago.cursomc.repositories.PagamentoRepository;
 import com.tiago.cursomc.repositories.PedidoRepository;
